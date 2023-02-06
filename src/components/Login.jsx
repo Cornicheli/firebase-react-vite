@@ -10,9 +10,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-const auth = getAuth(firebaseApp);
 
 export default function Login() {
+  const auth = getAuth(firebaseApp);
+
   const [register, setRegister] = useState(false);
 
   const handlerSubmit = async (e) => {
@@ -50,43 +51,41 @@ export default function Login() {
 
         {/* En esta section sera el form */}
 
-        <div className="col-md-8  container">
+        <div className="col-md-6  container">
           <div className="mt-5 ms-5">
-            <h1>{register ? "registrate" : "inicia session"}</h1>
+            <h1>{register ? "Sign Up" : "Log In"}</h1>
             <form onSubmit={handlerSubmit}>
               <div className="mb-3">
-                <label className="form-label">Dirrecion de Email</label>
+                <label className="form-label">Your Email</label>
                 <input
                   type="email"
-                  className="form-control"
-                  placeholder="ingrese su email"
+                  className="form-control w-50"
+                  placeholder="Ingresa tu email"
                   id="email"
                   required
                 />
 
                 <div className="mb-3">
-                  <label className="form-label">Contraseña</label>
+                  <label className="form-label">Your Password</label>
                   <input
                     type="password"
-                    className="form-control"
-                    placeholder="ingrese su clave"
+                    className="form-control w-50"
+                    placeholder="ingresa tu clave"
                     id="password"
                     required
                   />
                 </div>
               </div>
               <button className="btn btn-primary" type="submit">
-                {register ? "registrate" : "inicia sesion"}
+                {register ? "Sign Up" : "Log In"}
               </button>
             </form>
-            <div className="form-group">
+            <div className=" flex align-content-center form-group w-25">
               <button
                 className="btn btn-secondary mt-4 form-control"
                 onClick={() => setRegister(!register)}
               >
-                {register
-                  ? "ya tiene una cuenta creada? Inicia sesion"
-                  : "no tiene cuenta? Registrate"}
+                {register ? "Start Session" : "Register"}
               </button>
             </div>
           </div>

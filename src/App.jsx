@@ -5,23 +5,23 @@ import "./App.css";
 
 import firebaseApp from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(firebaseApp);
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState(null);
+  const auth = getAuth(firebaseApp);
 
   onAuthStateChanged(auth, (userFirebase) => {
     if (userFirebase) {
-      setUser(userFirebase);
+      setUsers(userFirebase);
     } else {
-      setUser(null);
+      setUsers(null);
     }
   });
 
   return (
     <>
       <div className="">
-        {user ? <Home correoUsuario={user.email} /> : <Login />}
+        {users ? <Home correoUsuario={users.email} /> : <Login />}
       </div>
     </>
   );
