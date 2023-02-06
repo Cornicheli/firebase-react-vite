@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "../index.css";
 import img1 from "../image/img1.jpg";
 import img2 from "../image/img2.jpg";
 import img3 from "../image/img3.jpg";
@@ -30,10 +30,10 @@ export default function Login() {
 
   return (
     <>
-      <div className="d-flex flex-row">
+      <div className="mediaquarie d-flex flex-wrap">
         <div
           id="carouselExampleSlidesOnly"
-          className="carousel slide"
+          className="carousel slide col-md-6"
           data-bs-ride="carousel"
         >
           <div className="carousel-inner">
@@ -59,7 +59,7 @@ export default function Login() {
                 <label className="form-label">Your Email</label>
                 <input
                   type="email"
-                  className="form-control w-50"
+                  className="form-control w-75"
                   placeholder="Ingresa tu email"
                   id="email"
                   required
@@ -69,7 +69,7 @@ export default function Login() {
                   <label className="form-label">Your Password</label>
                   <input
                     type="password"
-                    className="form-control w-50"
+                    className="form-control w-75"
                     placeholder="ingresa tu clave"
                     id="password"
                     required
@@ -80,12 +80,12 @@ export default function Login() {
                 {register ? "Sign Up" : "Log In"}
               </button>
             </form>
-            <div className=" flex align-content-center form-group w-25">
+            <div className=" flex align-content-center form-group w-50">
               <button
                 className="btn btn-secondary mt-4 form-control"
                 onClick={() => setRegister(!register)}
               >
-                {register ? "Start Session" : "Register"}
+                {register ? "Register" : "Start Session"}
               </button>
             </div>
           </div>

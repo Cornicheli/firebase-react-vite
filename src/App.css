@@ -3,6 +3,14 @@
   height: 960px;
   padding: 1rem;
 }
+@media (max-width: 950px) {
+  .dimension-img {
+    width: 100%;
+    height: 400px;
+    padding: 1rem;
+  }
+}
+
 body {
   background: #202124;
 }
