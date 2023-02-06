@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebaseApp from "../../firebase";
 import { getAuth, signOut } from "firebase/auth";
+// import { async } from "@firebase/util";
 import {
   getFirestore,
   collection,
@@ -13,6 +14,8 @@ import {
 } from "firebase/firestore";
 
 export default function Home({ correoUsuario }) {
+  const db = getFirestore(firebaseApp);
+
   const auth = getAuth(firebaseApp);
 
   const initialvalue = {
@@ -22,33 +25,43 @@ export default function Home({ correoUsuario }) {
   };
 
   // variable de estado
-  const [user, setUser] = useState(initialvalue);
+  const [users, setUsers] = useState(initialvalue);
   const [list, setList] = useState([]); // estado inicial vacio
-  const db = getFirestore(firebaseApp);
+  const [subId, setSubId] = useState("");
 
   // ---------------------
 
   //function para capturar datos
   const captureInput = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUsers({ ...users, [name]: value });
   };
+
   // ---------------------
 
-  //function para guardar datos
-  const saveData = async (e) => {
-    e.preventDefault();
-    console.log(user);
-    try {
-      await addDoc(collection(db, "users"), {
-        ...user,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  //function para actualizar/guardar datos
 
-    setUser({ ...initialvalue });
+  const saveDate = async (e) => {
+    e.preventDefault();
+    if (subId === "") {
+      try {
+        await addDoc(collection(db, "users"), {
+          ...users,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      await setDoc(
+        doc(db, "users", subId, {
+          ...users,
+        })
+      );
+    }
+    setUsers({ ...initialvalue });
+    setSubId("");
   };
+
   // ---------------------
 
   //function parar renderizar la list de user
@@ -67,23 +80,48 @@ export default function Home({ correoUsuario }) {
     };
     getList();
   }, [list]);
+
   // ---------------------
+
+  //function parar eliminar de la list de user
+  const deleteUsers = async (id) => {
+    await deleteDoc(doc(db, "users", id));
+  };
+
+  // ---------------------
+
+  const getOne = async (id) => {
+    try {
+      const docRef = doc(db, "users", id);
+      const docSnap = await getDoc(docRef);
+      setUsers(docSnap.data());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (subId !== "") {
+      getOne(subId);
+    }
+  }, [subId]);
 
   return (
     <>
       <div className="container">
-        <p>
+        <h2 className="text-center mt-5">
           Bienvenido, <strong>{correoUsuario}</strong> Has Iniciado Sesion
-        </p>
-
-        <button className="btn btn-primary" onClick={() => signOut(auth)}>
-          Cerrar Session
-        </button>
+        </h2>
+        <div className="d-flex justify-content-end">
+          <button className="btn btn-primary" onClick={() => signOut(auth)}>
+            Cerrar Session
+          </button>
+        </div>
         <hr />
         <div className="row">
           <div className="col-md-4">
             <h3 className="text-center mb-3">Enter User</h3>
-            <form onSubmit={saveData}>
+            <form onSubmit={saveDate}>
               <div className="card card-body">
                 <div className="form-group">
                   <input
@@ -92,15 +130,17 @@ export default function Home({ correoUsuario }) {
                     className="form-control mb-4"
                     placeholder="enter your name"
                     onChange={captureInput}
-                    value={user.name}
+                    value={users.name}
+                    required
                   />
                   <input
-                    type="number"
+                    type="text"
                     name="age"
                     className="form-control mb-4"
                     placeholder="enter your age"
                     onChange={captureInput}
-                    value={user.age}
+                    value={users.age}
+                    required
                   />
                   <input
                     type="text"
@@ -108,10 +148,13 @@ export default function Home({ correoUsuario }) {
                     className="form-control mb-4"
                     placeholder="enter your profession"
                     onChange={captureInput}
-                    value={user.profession}
+                    value={users.profession}
+                    required
                   />
                 </div>
-                <button className="btn btn-primary">Save</button>
+                <button className="btn btn-primary">
+                  {subId === "" ? "Save" : "update"}
+                </button>
               </div>
             </form>
           </div>
@@ -121,17 +164,27 @@ export default function Home({ correoUsuario }) {
             <div className="container card">
               <div className="card-body">
                 {list.map((list) => (
-                  <div key={list.id}>
-                    <p>Name: {list.name}</p>
-                    <p>Age:{list.age}</p>
-                    <p>Profession:{list.profession}</p>
+                  <div className="border m-3" key={list.id}>
+                    <p className="p-1">Name: {list.name}</p>
+                    <p className="p-1">Age: {list.age}</p>
+                    <p className="p-1">Profession: {list.profession}</p>
+                    <div className="d-flex flex-row">
+                      <button
+                        className="btn btn-success w-40 m-2"
+                        onClick={() => setSubId(list.id)}
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        className="btn btn-danger w-40 m-2"
+                        onClick={() => deleteUsers(list.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
-                <div className="d-flex flex-row">
-                  <button className="btn btn-green w-50 m-2">Update</button>
-
-                  <button className="btn btn-danger w-50 m-2">Delete</button>
-                </div>
               </div>
             </div>
           </div>

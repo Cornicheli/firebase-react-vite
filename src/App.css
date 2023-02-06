@@ -3,3 +3,12 @@
   height: 960px;
   padding: 1rem;
 }
+body {
+  background: #202124;
+}
+p,
+h1,
+h2,
+h3 {
+  color: white;
+}
