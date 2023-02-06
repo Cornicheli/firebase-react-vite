@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import "../index.css";
-import img1 from "../image/img1.jpg";
-import img2 from "../image/img2.jpg";
-import img3 from "../image/img3.jpg";
 
 import firebaseApp from "../../firebase";
 import {
@@ -38,13 +35,25 @@ export default function Login() {
         >
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src={img1} className="dimension-img" alt="img" />
+              <img
+                src="https://images.pexels.com/photos/2435561/pexels-photo-2435561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                className="dimension-img"
+                alt="img"
+              />
             </div>
             <div className="carousel-item">
-              <img src={img2} className="dimension-img" alt="img" />
+              <img
+                src="https://images.pexels.com/photos/7527761/pexels-photo-7527761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                className="dimension-img"
+                alt="img"
+              />
             </div>
             <div className="carousel-item">
-              <img src={img3} className="dimension-img" alt="img" />
+              <img
+                src="https://images.pexels.com/photos/2681631/pexels-photo-2681631.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                className="dimension-img"
+                alt="img"
+              />
             </div>
           </div>
         </div>
