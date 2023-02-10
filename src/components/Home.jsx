@@ -165,9 +165,11 @@ export default function Home({ correoUsuario }) {
               <div className="card-body">
                 {list.map((list) => (
                   <div className="border m-3" key={list.id}>
-                    <p className="p-1">Name: {list.name}</p>
-                    <p className="p-1">Age: {list.age}</p>
-                    <p className="p-1">Profession: {list.profession}</p>
+                    <p className="p-1 text-black-50">Name: {list.name}</p>
+                    <p className="p-1 text-black-50">Age: {list.age}</p>
+                    <p className="p-1 text-black-50">
+                      Profession: {list.profession}
+                    </p>
                     <div className="d-flex flex-row">
                       <button
                         className="btn btn-success w-40 m-2"
